@@ -20,21 +20,21 @@ $(document).mousemove(function(e){
 
 function random_position(){
 	var point = {};
-	point.lon = Math.random()*2*Math.PI - Math.PI;
-	point.lat = Math.random()*2*Math.PI - Math.PI;
+	point.lon = Math.random()*2*Math.PI;
+	point.lat = Math.random()*2*Math.PI;
 	return point;
 }
 
 function position_to_point(point){
 	rad = size/2;
-    point.x = rad * Math.cos(point.lon) * Math.sin(point.lat);
+    point.x = rad * Math.cos(point.lon) * Math.cos(point.lat);
     point.y = rad * Math.sin(point.lat) * Math.sin(point.lon);
-    point.z = rad * Math.cos(point.lat);
+    point.z = rad * Math.sin(point.lat);
     return point;
 }
 function distance_styling(point){
-	var c = "rgba(0,0,0, "+point.z/(size/2)+")";
-	var s = 32*point.z/(size/2) + "px";
+	var c = "rgba(0,0,0, "+(point.z+size/2)/(size*1.5)+")";
+	var s = 16*(point.z+size/2)/(size/2) + "px";
 	return {'color': c, 'font-size': s};
 }
 function tostr(point){
@@ -48,8 +48,10 @@ function tagsstring(){
 
 function rotate(){
 	tags.forEach(function(t, i){
-		t.lat+=x_speed/Math.PI;
-		t.lon+=y_speed/Math.PI;
+		t.lat+=x_speed/Math.PI 
+		t.lat %= 2*Math.PI;
+		t.lon+=y_speed/Math.PI; 
+		t.lon %= 2*Math.PI;
 		t = position_to_point(t);
 		$('#tag-'+i).css({'position': 'absolute', 'left': center.x+'px', 'top': center.y+'px', 'margin-left':t.x+'px', 'margin-top': t.y+'px'} ,1000)
         .css(distance_styling(t));
