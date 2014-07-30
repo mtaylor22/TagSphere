@@ -9,22 +9,37 @@
 </head>
 
 <body>
-	<ul class="tagsphere">
-		<li><a href="http://google.com">Google</a></li>
-		<li><a href="http://www.yahoo.com/">Yahoo!</a></li>
-		<li><a href="http://www.bing.com/">Bing</a></li>
-		<li><a href="http://www.faroo.com/">FAROO</a></li>
-		<li><a href="http://www.dogpile.com/">Dogpile</a></li>
-		<li><a href="http://www.hotbot.com/">HotBot</a></li>
-		<li><a href="http://info.com/">Info.com</a></li>
-		<li><a href="http://www.sogou.com/">Sogou</a></li>
-	</ul>
-	<div id="tagsphere-holder"></div>
+	<div id="tagsphere-holder1" class="tagsphere-holder">
+		<ul class="tagsphere">
+			<li><a href="http://google.com">Google</a></li>
+			<li><a href="http://www.yahoo.com/">Yahoo!</a></li>
+			<li><a href="http://www.bing.com/">Bing</a></li>
+			<li><a href="http://www.faroo.com/">FAROO</a></li>
+			<li><a href="http://www.dogpile.com/">Dogpile</a></li>
+			<li><a href="http://www.hotbot.com/">HotBot</a></li>
+			<li><a href="http://info.com/">Info.com</a></li>
+			<li><a href="http://www.sogou.com/">Sogou</a></li>
+		</ul>
+	</div>
+
+	<div id="tagsphere-holder2" class="tagsphere-holder">
+		<ul class="tagsphere">
+			<li><a href="http://google.com">Google</a></li>
+			<li><a href="http://www.yahoo.com/">Yahoo!</a></li>
+			<li><a href="http://www.bing.com/">Bing</a></li>
+			<li><a href="http://www.faroo.com/">FAROO</a></li>
+			<li><a href="http://www.dogpile.com/">Dogpile</a></li>
+			<li><a href="http://www.hotbot.com/">HotBot</a></li>
+			<li><a href="http://info.com/">Info.com</a></li>
+			<li><a href="http://www.sogou.com/">Sogou</a></li>
+		</ul>
+	</div>
 	
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="tagsphere.js"></script>
 	<script>
-		$tagsphere(500, 32, 16).start();
+		$tagsphere("tagsphere-holder1", 300, 32, 16, true).start();
+		$tagsphere("tagsphere-holder2", 120, 32, 16, true).start();
 	</script>
 </body>
 </html>
