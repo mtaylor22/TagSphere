@@ -3,7 +3,7 @@
         if ( window === this ) {
             return new $tagsphere(holder, size, BIGGEST_SIZE, SMALLEST_SIZE, border);
         }
-        if (border) $('#'+holder).css("border", "20px solid #ccc");
+        if (border) $('#'+holder).css("border-width", "20px");
         this.BIGGEST_SIZE = BIGGEST_SIZE;
         this.SMALLEST_SIZE = SMALLEST_SIZE;
         this.x_speed = 0;
@@ -27,7 +27,7 @@
 		    $this.tags.push(p);
 		});
 		$('#'+holder+" .tagsphere").hide();
-		$('#'+holder).css({'background-color': '#DDD', 'width': this.size+'px', 'height': this.size+'px'});
+		$('#'+holder).css({'width': this.size+'px', 'height': this.size+'px'});
 		var max_width=0;
 		var center = this.center;
 		this.tags.forEach(function (tag, i) {
@@ -63,11 +63,6 @@
 		    	}
 		    }
 		});	
-		$('#'+holder+' .tag a').hover(function(){
-			$(this).css({'border': '2px dashed #777', 'text-shadow': '0 0 7px'  + $(this).css('color')});
-		},function(){
-			$(this).css({'border': 'none', 'text-shadow': 'none'});
-		});
         return this;
     };
     $tagsphere.fn = $tagsphere.prototype = {

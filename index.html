@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>TagSphere</title>
+	<meta name="description" content="A 3D sphere JavaScript tag cloud designed with jQuery.">
+	<meta name="author" content="Mitchell Taylor">
+	<link rel="stylesheet" href="styles.css">
+	<style type="text/css">
+		h1{
+			font-family:Georgia;
+			font-size:112px;
+			font-weight:bold;
+			color:#0E2230;
+			margin:0;
+		}
+		.tagsphere-holder{
+			background-color:#4CA3D9;
+			border-color:#276894;
+			position:absolute;
+		}
+		html, body{
+			background-color:#BEECFF;
+			margin:0;
+			padding:0;
+			width:100%;
+			height:100%;
+		}
+		.tag:hover{
+			border-color:#18415C;
+		}
+		#title{
+			position:absolute;
+			margin-top:190px;
+			margin-left:20px	
+		}
+		#presentation-container{
+			width:100%;
+			position:relative;
+			margin:0 auto;
+			height:100%;
+		}
+		#tagsphere-holder1{
+			left:680px;
+		}
+		#tagsphere-holder2{
+			left:560px;
+			top:390px;
+		}
+		#tagsphere-holder3{
+			left:400px;
+			top:520px;
+		}
+		#top-compartment{
+			background-color:#8EDEFD;
+			height:45%;
+			width:100%;
+			z-index:-1;
+		}
+		#nav-compartment{
+			background-color:#0E2230;
+			width:100%;
+			height:10%;
+		}
+		#bottom-compartment{
+			background-color: #FDFEFF;
+			width:100%;
+			height:45%;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="presentation-container">
+		<h1 id="title">TagSphere</h1>
+		<div id="tagsphere-holder1" class="tagsphere-holder">
+			<ul class="tagsphere">
+				<li><a href="http://google.com">Google</a></li>
+				<li><a href="http://www.yahoo.com/">Yahoo!</a></li>
+				<li><a href="http://www.bing.com/">Bing</a></li>
+				<li><a href="http://www.faroo.com/">FAROO</a></li>
+				<li><a href="http://www.dogpile.com/">Dogpile</a></li>
+				<li><a href="http://www.hotbot.com/">HotBot</a></li>
+				<li><a href="http://info.com/">Info.com</a></li>
+				<li><a href="http://www.sogou.com/">Sogou</a></li>
+			</ul>
+		</div>
+
+		<div id="tagsphere-holder2" class="tagsphere-holder">
+			<ul class="tagsphere">
+				<li><a href="http://google.com">Google</a></li>
+				<li><a href="http://www.yahoo.com/">Yahoo!</a></li>
+				<li><a href="http://www.bing.com/">Bing</a></li>
+				<li><a href="http://www.faroo.com/">FAROO</a></li>
+				<li><a href="http://www.dogpile.com/">Dogpile</a></li>
+			</ul>
+		</div>
+		
+		<div id="tagsphere-holder3" class="tagsphere-holder">
+			<ul class="tagsphere">
+				<li><a href="http://google.com">Google</a></li>
+				<li><a href="http://www.yahoo.com/">Yahoo!</a></li>
+				<li><a href="http://www.bing.com/">Bing</a></li>
+				<li><a href="http://www.faroo.com/">FAROO</a></li>
+			</ul>
+		</div>
+		<div id="top-compartment"></div>
+		<div id="nav-compartment"></div>
+		<div id="bottom-compartment"></div>
+	</div>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="tagsphere.js"></script>
+	<script>
+		$tagsphere("tagsphere-holder1", 240, 45, 40, true).start();
+		$tagsphere("tagsphere-holder2", 80, 32, 16, true).start();
+		$tagsphere("tagsphere-holder3", 60, 22, 16, true).start();
+	</script>
+</body>
+</html>

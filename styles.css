@@ -6,14 +6,23 @@ span{
     -o-transition: .1s ease-in-out;
     transition: .1s ease-in-out;
 }
-#tagsphere-holder{
+.tagsphere-holder{
 	border-radius:50%;
+	position:relative;
+	border-style:solid;
+	border-width:0px;
+	border-color:#CCC;
+	background-color:#DDD;
 }
 .tag{
 	cursor:pointer;
+	position: absolute;
+	border-radius:5px;
 }
 .tag:hover{
 	color:#000;
+	background-color:rgba(0,0,0,.1);
+	border:2px dashed #777;
 }
 a{
 	-webkit-font-smoothing: antialiased;
