@@ -6,10 +6,8 @@ A customizable 3D sphere JavaScript Library tag cloud designed with jQuery.
 
 ---
 ###Table of Contents
-[ 1. Demo](#demo)
-
-[ 2. Dependencies](#dependencies) 
-
+[ 1. Demo](#demo)    
+[ 2. Dependencies](#dependencies)    
 [ 3. How to Use](#usage)
 
 ---
@@ -27,4 +25,4 @@ A customizable 3D sphere JavaScript Library tag cloud designed with jQuery.
 <a name="usage">
 ###How to Use
 
-I'm still figuring this out. lol.
+I'm still figuring this out. lol. Updates coming soon!
