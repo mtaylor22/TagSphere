@@ -6,8 +6,9 @@ A 3D sphere JavaScript tag cloud designed with jQuery.
 
 ---
 ###Content
+[ 1. Demo](#demo)
+ 
 
-[1. Demo](#demo)
 ---
 
 
