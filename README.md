@@ -5,7 +5,7 @@ A customizable 3D sphere JavaScript Library tag cloud designed with jQuery.
 
 
 ---
-###Table of Content
+###Table of Contents
 [ 1. Demo](#demo)
 
 [ 2. Dependencies](#dependencies) 
@@ -22,7 +22,7 @@ A customizable 3D sphere JavaScript Library tag cloud designed with jQuery.
 
 <a name="dependencies">
 ###Dependencies
-1. Jquery
+[1. Jquery](http://jquery.com/)
 
 <a name="usage">
 ###How to Use
