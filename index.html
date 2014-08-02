@@ -109,9 +109,10 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="tagsphere.js"></script>
 	<script>
-		$tagsphere("tagsphere-holder1", 240, 45, 40, {border: true, bordercolor:"#276894", backgroundcolor:"#4CA3D9"}).start();
-		$tagsphere("tagsphere-holder2", 80, 32, 16, {border: true, bordercolor:"#276894", backgroundcolor:"#4CA3D9"}).start();
-		$tagsphere("tagsphere-holder3", 60, 22, 16, {border: true, bordercolor:"#276894", backgroundcolor:"#4CA3D9"}).start();
+		var ts_style = {border: true, bordercolor:"#276894", backgroundcolor:"#4CA3D9", tag:{backgroundcolor: "rgba(39,104,148,.8)", borderstyle: "dashed", borderwidth:"2px", font:"Georgia"}, refresh: 100};
+		$tagsphere("tagsphere-holder1", 240, 45, 40, ts_style);
+		$tagsphere("tagsphere-holder2", 80, 32, 16, ts_style);
+		$tagsphere("tagsphere-holder3", 60, 22, 16, ts_style);
 	</script>
 </body>
 </html>
