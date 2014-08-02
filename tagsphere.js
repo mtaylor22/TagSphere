@@ -1,9 +1,16 @@
 (function (window, undefined) {
-	var $tagsphere = function (holder, size, BIGGEST_SIZE, SMALLEST_SIZE, border) {
+	var $tagsphere = function (holder, size, BIGGEST_SIZE, SMALLEST_SIZE, options) {
         if ( window === this ) {
-            return new $tagsphere(holder, size, BIGGEST_SIZE, SMALLEST_SIZE, border);
+            return new $tagsphere(holder, size, BIGGEST_SIZE, SMALLEST_SIZE, options);
         }
-        if (border) $('#'+holder).css("border-width", "20px");
+        if (options.border) $('#'+holder).css("border-width", "20px");
+        if (options.bordercolor)  $('#'+holder).css("border-color", options.bordercolor);
+        if (options.backgroundcolor)  $('#'+holder).css("background-color", options.backgroundcolor);
+       	if (options.tag){
+	       	if (options.tag.borderstyle) $(".tag:hover").css("border-style", options.tag.borderstyle + " !important");
+	       	if (options.tag.backgroundcolor) $(".tag:hover").css("background-color", options.tag.backgroundcolor + " !important");
+	       	if (options.tag.borderwidth) $(".tag:hover").css("border-width", options.tag.borderwidth + " !important");
+       	}
         this.BIGGEST_SIZE = BIGGEST_SIZE;
         this.SMALLEST_SIZE = SMALLEST_SIZE;
         this.x_speed = 0;
@@ -16,13 +23,6 @@
 		var $this = this;
 		$('#'+holder+" .tagsphere > li").each(function () {
 			var p = $this.position_to_point($this.random_position());
-			var p = {};
-			p.lon = Math.random()*2*Math.PI;
-			p.lat = Math.random()*2*Math.PI;
-			var rad = size/2;
-			p.x = rad * Math.cos(p.lon) * Math.cos(p.lat);
-			p.y = rad * Math.sin(p.lat) * Math.sin(p.lon);
-			p.z = rad * Math.sin(p.lat);
 			p.tag = $(this).html();
 		    $this.tags.push(p);
 		});
@@ -42,6 +42,7 @@
 			$('#'+holder+' #tag-'+i + ' a').css({'color': "rgba(0,0,0,"+((tag.z+size/2)/(size*1.5))+")", 'font-size': ((BIGGEST_SIZE - SMALLEST_SIZE) *(tag.z+size/2)/(size) + SMALLEST_SIZE) +  "px"});
 		});
 		$('#'+holder).css('padding', max_width/2);
+		this.max_width = max_width;
 		this.center.x+=max_width/2;
 		this.center.y+=max_width/2;
 		$('#'+holder+' .tag').css({'left': this.center.x+'px', 'top': this.center.y+'px'});
@@ -75,19 +76,19 @@
 	},
     position_to_point: function(point){
 		var rad = this.size/2;
-	    point.x = rad * Math.cos(point.lon) * Math.cos(point.lat);
-	    point.y = rad * Math.sin(point.lat) * Math.sin(point.lon);
-	    point.z = rad * Math.sin(point.lat);
+	    point.x = -1 * rad * Math.sin(point.lat);
+	    point.y = (rad) * Math.sin(point.lon) * Math.cos(point.lon);
+	    point.z = -1 * rad * Math.cos(point.lat) * Math.cos(point.lon);
 	    return point;
 	},
     distance_styling: function(point){
-		var c = "rgba(0,0,0, "+(point.z+this.size/2)/(this.size*1.5)+")";
+		var c = "rgba(0,0,0, "+Math.min(1.5*((point.z+this.size/2)/(this.size*1.5)), 1)+")";
 		var s = (this.BIGGEST_SIZE - this.SMALLEST_SIZE) *(point.z+this.size/2)/(this.size) + this.SMALLEST_SIZE +  "px";
 		return {'color': c, 'font-size': s};
     },
 	rotate: function($this){
 	    $this.tags.forEach(function(t, i){
-			t.lat+=$this.x_speed/Math.PI 
+			t.lat+=$this.x_speed/Math.PI;
 			t.lat %= 2*Math.PI;
 			t.lon+=$this.y_speed/Math.PI; 
 			t.lon %= 2*Math.PI;
