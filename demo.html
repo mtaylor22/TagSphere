@@ -24,7 +24,8 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="tagsphere.js"></script>
 	<script>
-		$tagsphere("tagsphere-holder1", 240, 45, 40, {border: true, bordercolor:"#CCC"}).start();
+		var ts_style = {border: true, mousespeed: 1.3, size:240, smallestsize:40, biggestsize:45};
+		$tagsphere("tagsphere-holder1", ts_style);
 	</script>
 </body>
 </html>

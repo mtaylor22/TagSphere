@@ -1,15 +1,16 @@
 (function (window, undefined) {
-	var $tagsphere = function (holder, size, BIGGEST_SIZE, SMALLEST_SIZE, options) {
+	var $tagsphere = function (holder, options) {
         if ( window === this ) {
-            return new $tagsphere(holder, size, BIGGEST_SIZE, SMALLEST_SIZE, options);
+            return new $tagsphere(holder, options);
         }
         //options processing
+        this.options = options;
         if (options.border) $('#'+holder).css("border-width", "20px");
         if (options.bordercolor)  $('#'+holder).css("border-color", options.bordercolor);
         if (options.backgroundcolor)  $('#'+holder).css("background-color", options.backgroundcolor);
        	if (options.tag){
-       		if (options.tag.font) $('.tag').css('font-family', options.tag.font);
-		   	$(".tag").hover(function(){
+       		if (options.tag.font) $('.tstag').css('font-family', options.tag.font);
+		   	$(".tstag").hover(function(){
 		       	if (options.tag.borderstyle) $(this).css("border-style", options.tag.borderstyle);
 		       	if (options.tag.backgroundcolor) $(this).css("background-color", options.tag.backgroundcolor);
 		       	if (options.tag.borderwidth) $(this).css("border-width", options.tag.borderwidth);
@@ -19,55 +20,72 @@
 		       	if (options.tag.borderwidth) $(this).css("border-width", "");	   		
 		   	});
        	}
+       	if (options.biggestsize) this.BIGGEST_SIZE = options.biggestsize;
+       	if (options.smallestsize) this.SMALLEST_SIZE = options.smallestsize;
+       	if (options.size) this.size = options.size;
 
        	//consideration of arguments
-        this.BIGGEST_SIZE = BIGGEST_SIZE;
-        this.SMALLEST_SIZE = SMALLEST_SIZE;
         this.x_speed = 0;
 		this.y_speed = 0;
-		this.size = size;
 		this.center = {'x': Math.floor((this.size)/2), 'y': Math.floor((this.size)/2)};
 		this.tags = [];
 		this.holder = holder;
-
-		//Add tags to ts
-		var $this = this;
-		$('#'+holder+" .tagsphere > li").each(function () {
-			var p = $this.position_to_point($this.random_position());
-			p.tag = $(this).html();
-		    $this.tags.push(p);
-		});
 
 		//set up environment
 		$('#'+holder+" .tagsphere").hide();
 		$('#'+holder).css({'width': this.size+'px', 'height': this.size+'px'});
 
-		//add tags
+		//Add tags to ts
+		var $this = this;
+		if (options.extjson){
+			$.getJSON(options.extjson, function(data){
+				data.forEach(function(tag){
+					var p = $this.position_to_point($this.random_position());
+					if (tag.type=="onclick")
+						p.tag = "<a onclick='" + tag.link + "'>" + tag.tag + "</a>";
+					else
+						p.tag = "<a href='" + tag.link + "'>" + tag.tag + "</a>";
+				    $this.tags.push(p);
+				});
+			}).promise().done(function(){return $this.init();});
+		} else {
+			$('#'+holder+" .tagsphere > li").each(function () {
+				var p = $this.position_to_point($this.random_position());
+				p.tag = $(this).html();
+			    $this.tags.push(p);
+			});
+			$this.init();
+		}
+		//Repeats the rotate function, which updates
+        return this;
+    };
+    $tagsphere.fn = $tagsphere.prototype = {
+    init: function(){
+ 		//add tags
 		//determine the largest tag width to ensure tags don't extend beyond the boundaries of the circle.
 		//this relies on the width property of the span element, and using padding to compensate half of the largest width
 		var max_width=0;
 		var $this = this;
 		this.tags.forEach(function (tag, i) {
-		    $('#'+holder).append('<span class="tag" id="tag-'+i+'">' + tag.tag + '</span>');
-		    $('#'+holder+' #tag-'+i).css({'margin-left':tag.x+'px', 'margin-top': tag.y+'px', 'font-size': BIGGEST_SIZE+'px'});
-			tag.width = $('#'+holder+' #tag-'+i).width();
+		    $('#'+$this.holder).append('<span class="tstag" id="tstag-'+i+'">' + tag.tag + '</span>');
+		    $('#'+$this.holder+' #tstag-'+i).css({'margin-left':tag.x+'px', 'margin-top': tag.y+'px', 'font-size': $this.BIGGEST_SIZE+'px'});
+			tag.width = $('#'+$this.holder+' #tstag-'+i).width();
 			if (tag.width > max_width){
 				max_width = tag.width;
 			}
 			$this.distance_styling(tag);
 		});
-
 		//now that we've acquired max_width ... 
-		$('#'+holder).css('padding', max_width/2);
+		$('#'+this.holder).css('padding', max_width/2);
 		this.max_width = max_width;
 		this.center.x+=max_width/2;
 		this.center.y+=max_width/2;
-		$('#'+holder+' .tag').css({'left': this.center.x+'px', 'top': this.center.y+'px'});
+		$('#'+this.holder+' .tstag').css({'left': this.center.x+'px', 'top': this.center.y+'px'});
 
 		// Handling mouse tracking
 		var $this=this;
 		$(document).mousemove(function(e){
-		    var $holder = $('#'+holder);
+		    var $holder = $('#'+$this.holder);
 		    var div_x = e.pageX - $holder.offset().left;
 		    var div_y = e.pageY - $holder.offset().top;
 		    var inside_y = (div_y  > 0 && div_y < $holder.outerHeight());
@@ -75,8 +93,8 @@
 
 		    // If the mouse is inside the div
 		    if (inside_x && inside_y){
-		    	$this.x_speed = ((options.mousespeed) ? options.mousespeed : 1)*(div_x - $this.center.x)/$holder.outerWidth();
-		    	$this.y_speed = -1*((options.mousespeed) ? options.mousespeed : 1)*(div_y - $this.center.y)/$holder.outerHeight();
+		    	$this.x_speed = (($this.options.mousespeed) ? $this.options.mousespeed : 1)*(div_x - $this.center.x)/$holder.outerWidth();
+		    	$this.y_speed = -1*(($this.options.mousespeed) ? $this.options.mousespeed : 1)*(div_y - $this.center.y)/$holder.outerHeight();
 		    } else {
 
 		    	// Handles slowing of tags after mouse leaves
@@ -85,15 +103,12 @@
 		    		$this.x_speed/=2;
 		    	}
 		    }
-		});	
-
-		//Repeats the rotate function, which updates
+		});
 		var $this = this;
-		setInterval(function(){$this.rotate($this)}, (options.refresh) ? options.refresh : 100);
-        return this;
-    };
-    $tagsphere.fn = $tagsphere.prototype = {
+		setInterval(function(){$this.rotate($this)}, ($this.options.refresh) ? $this.options.refresh : 100);
+		return this;	
 
+    },
     //Generate a random latitude and longitude 
 	random_position: function(){
 		var point = {};
@@ -116,7 +131,7 @@
 
 	//Styles the tag based on depth
     distance_styling: function(point){
-    	var calculated_opacity = (.1+Math.max((point.z+this.size/2)/(this.size), 0));
+    	var calculated_opacity = (.05+1.5*Math.max((point.z+this.size/2)/(this.size), 0));
 		var color_str = "rgba(0,0,0, "+calculated_opacity.toFixed(4)+")";
 		var calculated_size = (this.BIGGEST_SIZE - this.SMALLEST_SIZE) *(point.z+this.size/2)/(this.size) + this.SMALLEST_SIZE;
 		var size_str = calculated_size.toFixed(2) +  "px";
@@ -131,12 +146,12 @@
 			t.lon+=$this.y_speed/Math.PI; 
 			t.lon %= 2*Math.PI;
 			t = $this.position_to_point(t);
-			t.width = $('#'+$this.holder+' #tag-'+i).width();
-			t.height = $('#'+$this.holder+' #tag-'+i).height();
+			t.width = $('#'+$this.holder+' #tstag-'+i).width();
+			t.height = $('#'+$this.holder+' #tstag-'+i).height();
 			var newleft = $this.center.x-t.width/2;
 			var newtop = $this.center.y-t.height/2;
-			$('#'+$this.holder+' #tag-'+i).css({'left': newleft+'px', 'top': newtop+'px', 'margin-left':t.x+'px', 'margin-top': t.y+'px'});
-	        $('#'+$this.holder+' #tag-'+i + ' a').css($this.distance_styling(t));
+			$('#'+$this.holder+' #tstag-'+i).css({'left': newleft+'px', 'top': newtop+'px', 'margin-left':t.x+'px', 'margin-top': t.y+'px'});
+	        $('#'+$this.holder+' #tstag-'+i + ' a').css($this.distance_styling(t));
 		});
 	},
     };
