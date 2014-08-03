@@ -1,7 +1,7 @@
 (function (window, options, callback) {
 	var $tagsphere = function (holder, options, callback) {
         if ( window === this ) {
-            return new $tagsphere(holder, options);
+            return new $tagsphere(holder, options, callback);
         }
         //options processing
         this.options = options;
