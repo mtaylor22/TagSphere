@@ -1,10 +1,11 @@
-(function (window, undefined) {
-	var $tagsphere = function (holder, options) {
+(function (window, options, callback) {
+	var $tagsphere = function (holder, options, callback) {
         if ( window === this ) {
             return new $tagsphere(holder, options);
         }
         //options processing
         this.options = options;
+        this.callback = callback;
         if (options.border) $('#'+holder).css("border-width", "20px");
         if (options.bordercolor)  $('#'+holder).css("border-color", options.bordercolor);
         if (options.backgroundcolor)  $('#'+holder).css("background-color", options.backgroundcolor);
@@ -54,7 +55,7 @@
 				p.tag = $(this).html();
 			    $this.tags.push(p);
 			});
-			$this.init();
+			return($this.init());
 		}
 		//Repeats the rotate function, which updates
         return this;
@@ -104,8 +105,9 @@
 		    	}
 		    }
 		});
-		var $this = this;
-		setInterval(function(){$this.rotate($this)}, ($this.options.refresh) ? $this.options.refresh : 100);
+
+		this.start();
+		if (this.callback) this.callback();
 		return this;	
 
     },
@@ -132,7 +134,8 @@
 	//Styles the tag based on depth
     distance_styling: function(point){
     	var calculated_opacity = (.05+1.5*Math.max((point.z+this.size/2)/(this.size), 0));
-		var color_str = "rgba(0,0,0, "+calculated_opacity.toFixed(4)+")";
+    	var color = (this.options.color) ? hexToRgb(this.options.color): hexToRgb("000");
+		var color_str = "rgba("+color.r+","+color.g+","+color.b+", "+calculated_opacity.toFixed(4)+")";
 		var calculated_size = (this.BIGGEST_SIZE - this.SMALLEST_SIZE) *(point.z+this.size/2)/(this.size) + this.SMALLEST_SIZE;
 		var size_str = calculated_size.toFixed(2) +  "px";
 		return {'color': color_str, 'font-size': size_str};
@@ -150,10 +153,41 @@
 			t.height = $('#'+$this.holder+' #tstag-'+i).height();
 			var newleft = $this.center.x-t.width/2;
 			var newtop = $this.center.y-t.height/2;
-			$('#'+$this.holder+' #tstag-'+i).css({'left': newleft+'px', 'top': newtop+'px', 'margin-left':t.x+'px', 'margin-top': t.y+'px'});
+			$('#'+$this.holder+' #tstag-'+i).css({'left': newleft+'px', 'top': newtop+'px', 'margin-left':t.x+'px', 'margin-top': t.y+'px', 'z-index':Math.round(t.z*100)});
 	        $('#'+$this.holder+' #tstag-'+i + ' a').css($this.distance_styling(t));
 		});
 	},
+
+	//stops rotation
+	stop: function(){
+		if (this.interval){
+			clearInterval(this.interval);
+			this.interval = undefined;
+		}
+	},
+	//stops rotation
+	start: function(){
+		var $this = this;
+		this.interval = setInterval(function(){$this.rotate($this)}, ($this.options.refresh) ? $this.options.refresh : 100);
+	}
     };
     window.$tagsphere = $tagsphere;
 })(window);
+
+/*
+	Thanks to Tim Down @ StackOverflow
+	http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+*/
+function hexToRgb(hex) {
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
