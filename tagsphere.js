@@ -153,7 +153,7 @@
 			t.height = $('#'+$this.holder+' #tstag-'+i).height();
 			var newleft = $this.center.x-t.width/2;
 			var newtop = $this.center.y-t.height/2;
-			$('#'+$this.holder+' #tstag-'+i).css({'left': newleft+'px', 'top': newtop+'px', 'margin-left':t.x+'px', 'margin-top': t.y+'px', 'z-index':Math.round(t.z*100)});
+			$('#'+$this.holder+' #tstag-'+i).css({'left': newleft+'px', 'top': newtop+'px', 'margin-left':t.x+'px', 'margin-top': t.y+'px', 'z-index':Math.round(t.z)});
 	        $('#'+$this.holder+' #tstag-'+i + ' a').css($this.distance_styling(t));
 		});
 	},
