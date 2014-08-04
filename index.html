@@ -70,7 +70,8 @@
 			height:calc(55% - 40px);
 		}
 		.nav{
-			width:170px;
+			/*width:170px;*/
+			padding:0 10px 0 10px;
 			border-right:dashed 1px #8EDEFD;
 			height:40px;
 			display:block;
@@ -147,6 +148,7 @@
 			<a class="nav" onclick="$('html,body').animate({scrollTop: $('#getting-started-container').offset().top}, 1000);">Getting Started</a>
 			<a class="nav" onclick="$('html,body').animate({scrollTop: $('#options-container').offset().top}, 1000);">Options</a>
 			<a class="nav" onclick="$('html,body').animate({scrollTop: $('#using-json-container').offset().top}, 1000);">Using JSON</a>
+			<a class="nav" onclick="$('html,body').animate({scrollTop: $('#build-container').offset().top}, 1000);">Build</a>
 		</div>
 		<div id="bottom-compartment"></div>
 		<div id="getting-started-container">
@@ -205,6 +207,9 @@
 	}, 
 	...
 ]</pre>
+		</div>
+		<div id="build-container">
+		<h2>Build a TagSphere Instance</h2>
 		</div>
 	</div>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
