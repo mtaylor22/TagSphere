@@ -1,11 +1,3 @@
-span{
-	font-family:Georgia;
-	font-weight:bold;
-    -webkit-transition: .1s ease-in-out;
-    -moz-transition: .1s ease-in-out;
-    -o-transition: .1s ease-in-out;
-    transition: .1s ease-in-out;
-}
 .tagsphere-holder{
 	border-radius:50%;
 	position:relative;
@@ -14,19 +6,25 @@ span{
 	border-color:#CCC;
 	background-color:#DDD;
 }
-.tag{
+.tstag{
 	cursor:pointer;
 	position: absolute;
 	border-radius:5px;
+	font-family:Georgia;
+	font-weight:bold;
+    -webkit-transition: .1s ease-in-out;
+    -moz-transition: .1s ease-in-out;
+    -o-transition: .1s ease-in-out;
+    transition: .1s ease-in-out;
 }
-.tag:hover{
+.tstag:hover{
 	color:#000;
 	background-color:rgba(0,0,0,.1);
 	border:2px dashed #777;
 }
-a{
+.tstag a{
 	-webkit-font-smoothing: antialiased;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
 	text-decoration:none;
-	color:auto;
+	color:black;
 }
