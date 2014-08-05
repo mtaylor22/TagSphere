@@ -217,9 +217,24 @@
        	if (options.size) this.size = options.size;
 		this.center = {'x': Math.floor((this.size)/2), 'y': Math.floor((this.size)/2)};
 		$('#'+this.holder).css({'width': this.size+'px', 'height': this.size+'px'});
+		var max_width = 0, $this = this;
+		$('#'+this.holder+' .tstag').css({'font-size': this.BIGGEST_SIZE+'px'});
+
+		this.tags.forEach(function (tag, i) {
+			tag.width = $('#'+$this.holder+' #tstag-'+i).width();
+			if (tag.width > max_width){
+				max_width = tag.width;
+			}
+			$this.distance_styling(tag);
+		});
+		$('#'+this.holder).css('padding', max_width/2);
+		this.max_width = max_width;
+		this.center.x+=max_width/2;
+		this.center.y+=max_width/2;
+		$('#'+this.holder+' .tstag').css({'left': this.center.x+'px', 'top': this.center.y+'px'});
 		var $this = this;
-		this.stop();
-		$('#'+this.holder+' .tstag').fadeOut().promise().done(function(){this.remove();$this.init()});
+		// this.stop();
+		// $('#'+this.holder+' .tstag').fadeOut().promise().done(function(){this.remove();$this.init()});
 	}
     };
     window.$tagsphere = $tagsphere;
