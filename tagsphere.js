@@ -6,11 +6,12 @@
         //options processing
         this.options = options;
         this.callback = callback;
-        if (options.border) $('#'+holder).css("border-width", "20px");
+        if (options.border) $('#'+holder).css("border-width", "20px"); else if (options.border == false) $('#'+this.holder).css("border-width", "");
         if (options.bordercolor)  $('#'+holder).css("border-color", options.bordercolor);
+        if (options.borderwidth) $('#'+this.holder).css("border-width", options.borderwidth);
         if (options.backgroundcolor)  $('#'+holder).css("background-color", options.backgroundcolor);
        	if (options.tag){
-       		if (options.tag.font) $('.tstag').css('font-family', options.tag.font);
+       		if (options.tag.font) $('#'+holder + ' .tstag').css('font-family', options.tag.font);
 		   	$(".tstag").hover(function(){
 		       	if (options.tag.borderstyle) $(this).css("border-style", options.tag.borderstyle);
 		       	if (options.tag.backgroundcolor) $(this).css("background-color", options.tag.backgroundcolor);
@@ -164,11 +165,76 @@
 			clearInterval(this.interval);
 			this.interval = undefined;
 		}
+		return this;
 	},
 	//stops rotation
 	start: function(){
 		var $this = this;
 		this.interval = setInterval(function(){$this.rotate($this)}, ($this.options.refresh) ? $this.options.refresh : 100);
+		return this;
+	},
+	//destroy items
+	clear: function(callback){
+		this.tags=[];
+		$('#'+this.holder+' .tstag').fadeOut().promise().done(function(){this.remove();if (callback) callback();});
+		return this;
+	},
+	load: function(url){
+		var $this = this;
+		$.getJSON(url, function(data){
+			data.forEach(function(tag){
+				var p = $this.position_to_point($this.random_position());
+				if (tag.type=="onclick")
+					p.tag = "<a onclick='" + tag.link + "'>" + tag.tag + "</a>";
+				else
+					p.tag = "<a href='" + tag.link + "'>" + tag.tag + "</a>";
+			    $this.tags.push(p);
+			});
+		});
+		return this.init();
+	},
+	//update TagSphere with new options
+	update: function(options){
+		this.options = options;
+        if (options.border) $('#'+this.holder).css("border-width", "20px"); else if (options.border == false) $('#'+this.holder).css("border-width", "");
+        if (options.borderwidth) $('#'+this.holder).css("border-width", options.borderwidth);
+        if (options.bordercolor)  $('#'+this.holder).css("border-color", options.bordercolor);
+        if (options.backgroundcolor)  $('#'+this.holder).css("background-color", options.backgroundcolor);
+       	if (options.tag){
+       		if (options.tag.font) $('#'+this.holder + ' .tstag').css('font-family', options.tag.font);
+		   	$(".tstag").hover(function(){
+		       	if (options.tag.borderstyle) $(this).css("border-style", options.tag.borderstyle);
+		       	if (options.tag.backgroundcolor) $(this).css("background-color", options.tag.backgroundcolor);
+		       	if (options.tag.borderwidth) $(this).css("border-width", options.tag.borderwidth);
+		   	}, function(){
+		       	if (options.tag.borderstyle) $(this).css("border-style", "");
+		       	if (options.tag.backgroundcolor) $(this).css("background-color", "");
+		       	if (options.tag.borderwidth) $(this).css("border-width", "");	   		
+		   	});
+       	}
+       	if (options.biggestsize) this.BIGGEST_SIZE = options.biggestsize;
+       	if (options.smallestsize) this.SMALLEST_SIZE = options.smallestsize;
+       	if (options.size) this.size = options.size;
+		this.center = {'x': Math.floor((this.size)/2), 'y': Math.floor((this.size)/2)};
+		$('#'+this.holder).css({'width': this.size+'px', 'height': this.size+'px'});
+		var max_width = 0, $this = this;
+		$('#'+this.holder+' .tstag').css({'font-size': this.BIGGEST_SIZE+'px'});
+
+		this.tags.forEach(function (tag, i) {
+			tag.width = $('#'+$this.holder+' #tstag-'+i).width();
+			if (tag.width > max_width){
+				max_width = tag.width;
+			}
+			$this.distance_styling(tag);
+		});
+		$('#'+this.holder).css('padding', max_width/2);
+		this.max_width = max_width;
+		this.center.x+=max_width/2;
+		this.center.y+=max_width/2;
+		$('#'+this.holder+' .tstag').css({'left': this.center.x+'px', 'top': this.center.y+'px'});
+		var $this = this;
+		// this.stop();
+		// $('#'+this.holder+' .tstag').fadeOut().promise().done(function(){this.remove();$this.init()});
 	}
     };
     window.$tagsphere = $tagsphere;

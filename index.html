@@ -18,9 +18,6 @@
 			font-weight:bold;
 			color:#0E2230;
 		}
-		.tagsphere-holder{
-			position:absolute;
-		}
 		html, body{
 			background-color:#BEECFF;
 			margin:0;
@@ -44,14 +41,20 @@
 		}
 		#tagsphere-holder1{
 			left:680px;
+			position:absolute;
 		}
 		#tagsphere-holder2{
 			left:560px;
 			top:390px;
+			position:absolute;
 		}
 		#tagsphere-holder3{
 			left:400px;
 			top:520px;
+			position:absolute;
+		}
+		#tagsphere-holder4{
+			margin:20px;
 		}
 		#top-compartment{
 			background-color:#8EDEFD;
@@ -105,6 +108,18 @@
 		}
 		li{
 			padding:5px;
+		}
+		.options-input{
+			padding:5px;
+			border-radius:10px;
+			background-color:#000;
+			color:#FFF;
+			border:0;
+			outline:none;
+		}
+		#setup-container{
+			padding:10px;
+			background-color:#4ca3d9;
 		}
 	</style>
 </head>
@@ -180,20 +195,21 @@
 			<h2>Options</h2>
 			<p>TagSphere can use some options to configure how the object looks and acts.
 			<ul>
-			<li><code class="prettyprint">options.border</code> - (Boolean) Determines whether there will be aborder around the object</li>
-			<li><code class="prettyprint">options.bordercolor</code> - (CSS color) Sets the color of the border. </li>
-			<li><code class="prettyprint">options.backgroundcolor</code> - (CSS color) Sets the background color of the object.</li>
-			<li><code class="prettyprint">options.tag.font</code> - (Font Name) Sets the font family of the tags. </li>
-			<li><code class="prettyprint">options.tag.borderstyle</code> - (CSS Border Style) Sets the style of the border around each tag when highlighted.</li>
-			<li><code class="prettyprint">options.tag.backgroundcolor</code> - (CSS Color) Sets the background color of each tag.</li>
-			<li><code class="prettyprint">options.tag.borderwidth</code> - (CSS dimension) Sets the width of the border around each tag. </li>
-			<li><code class="prettyprint">options.biggestsize</code> - (Integer) Sets the biggest size of font to be displayed in the TagSphere. </li>
-			<li><code class="prettyprint">options.smallestsize</code> - (Integer) Sets the smallest size of font to be displayed in the TagSphere.</li>
-			<li><code class="prettyprint">options.size</code> - (Integer) sets the pixel length of the width,height of the TagSphere.</li>
-			<li><code class="prettyprint">options.extjson</code> - (URL) Sets the url for the JSON input and indicates it should be used.</li>
-			<li><code class="prettyprint">options.mousespeed</code> - (Integer) Constant multiplier which determines the speed with which the TagSphere reacts to mouse movements.</li>
-			<li><code class="prettyprint">options.color</code> - (CSS color) Sets the font color of the tags.</li>
-			<li><code class="prettyprint">options.refresh</code> - (Integer) Sets the speed (in ms) of the interval between refreshing. (Default:100)</li>
+				<li><code class="prettyprint">options.border</code> - (Boolean) Determines whether there will be aborder around the object</li>
+				<li><code class="prettyprint">options.bordercolor</code> - (CSS color) Sets the color of the border. </li>
+				<li><code class="prettyprint">options.backgroundcolor</code> - (CSS color) Sets the background color of the object.</li>
+				<li><code class="prettyprint">options.tag.font</code> - (Font Name) Sets the font family of the tags. </li>
+				<li><code class="prettyprint">options.tag.borderstyle</code> - (CSS Border Style) Sets the style of the border around each tag when highlighted.</li>
+				<li><code class="prettyprint">options.tag.backgroundcolor</code> - (CSS Color) Sets the background color of each tag.</li>
+				<li><code class="prettyprint">options.tag.borderwidth</code> - (CSS dimension) Sets the width of the border around each tag. </li>
+				<li><code class="prettyprint">options.biggestsize</code> - (Integer) Sets the biggest size of font to be displayed in the TagSphere. </li>
+				<li><code class="prettyprint">options.smallestsize</code> - (Integer) Sets the smallest size of font to be displayed in the TagSphere.</li>
+				<li><code class="prettyprint">options.size</code> - (Integer) sets the pixel length of the width,height of the TagSphere.</li>
+				<li><code class="prettyprint">options.extjson</code> - (URL) Sets the url for the JSON input and indicates it should be used.</li>
+				<li><code class="prettyprint">options.mousespeed</code> - (Integer) Constant multiplier which determines the speed with which the TagSphere reacts to mouse movements.</li>
+				<li><code class="prettyprint">options.color</code> - (CSS color) Sets the font color of the tags.</li>
+				<li><code class="prettyprint">options.refresh</code> - (Integer) Sets the speed (in ms) of the interval between refreshing. (Default:100)</li>
+			</ul>
 		</div>
 
 
@@ -208,17 +224,95 @@
 	...
 ]</pre>
 		</div>
-		<div id="build-container">
-		<h2>Build a TagSphere Instance</h2>
+		<div id="build-container" ng-app="TSPreview" ng-controller="PreviewController">
+			<h2>Build a TagSphere Instance</h2>
+			<table style="height:400px;"><tr><td>
+			<div id="tagsphere-holder4" class="tagsphere-holder">
+				<ul class="tagsphere">
+					<li><a href="http://google.com">Google</a></li>
+					<li><a href="http://www.yahoo.com/">Yahoo!</a></li>
+					<li><a href="http://www.bing.com/">Bing</a></li>
+					<li><a href="http://www.faroo.com/">FAROO</a></li>
+					<li><a href="http://www.dogpile.com/">Dogpile</a></li>
+					<li><a href="http://www.hotbot.com/">HotBot</a></li>
+					<li><a href="http://info.com/">Info.com</a></li>
+					<li><a href="http://www.sogou.com/">Sogou</a></li>
+				</ul>
+			</div>
+			</td>
+			<td style="width:500px;height:100%;vertical-align:top;">
+			<ul>
+				<li><code class="prettyprint">options.border</code> - <input type="checkbox" id="options.border" ng-model="border" class="options-input"/></li>
+				<li><code class="prettyprint">options.bordercolor</code> - <input type="color" id="options.bordercolor" ng-model="bordercolor" class="options-input"/></li>
+				<li><code class="prettyprint">options.backgroundcolor</code> - <input type="color" id="options.backgroundcolor" ng-model="backgroundcolor" class="options-input"/></li>
+				<li><code class="prettyprint">options.tag.font</code> -<input type="text" id="options.tag.font" ng-model="tagfont" class="options-input"/></li>
+				<li><code class="prettyprint">options.tag.borderstyle</code> -<input type="text" id="options.tag.borderstyle" ng-model="tagborderstyle" class="options-input"/></li>
+				<li><code class="prettyprint">options.tag.backgroundcolor</code> -<input type="color" id="options.tag.backgroundcolor" ng-model="tagbackgroundcolor" class="options-input"/></li>
+				<li><code class="prettyprint">options.tag.borderwidth</code> -<input type="number" min="0" id="options.tag.borderwidth" ng-model="tagborderwidth" class="options-input"/></li>
+				<li><code class="prettyprint">options.biggestsize</code> - <input type="number" min="0" id="options.biggestsize" ng-model="biggestsize" class="options-input"/></li>
+				<li><code class="prettyprint">options.smallestsize</code> - <input type="number" min="0" id="options.smallestsize" ng-model="smallestsize" class="options-input"/></li>
+				<li><code class="prettyprint">options.size</code> - <input type="number" min="0" id="options.size" ng-model="size" class="options-input"/></li>
+				<!-- <li><code class="prettyprint">options.extjson</code> - <input type="url" id="options.extjson" ng-model="extjson" class="options-input"/></li> -->
+				<li><code class="prettyprint">options.mousespeed</code> - <input type="number" min="0" id="options.mousespeed" ng-model="mousespeed" class="options-input"/></li>
+				<li><code class="prettyprint">options.color</code> - <input type="color" id="options.color" ng-model="color" class="options-input"/></li>
+				<li><code class="prettyprint">options.refresh</code> - <input type="number" min="0" id="options.refresh" ng-model="refresh" class="options-input"/></li>
+			</ul>
+			</td></tr></table>
+			<div id="setup-container">
+			<h3>Setup String:</h3> <input class="options-input" type="text" style="width:calc(100% - 20px);" value="{{setup}}" />
+			</div>
+
 		</div>
 	</div>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.18/angular.min.js"></script>
 	<script src="tagsphere.js"></script>
 	<script>
 		var ts_style = {border: true, bordercolor:"#276894", backgroundcolor:"rgb(76,163,217)", tag:{backgroundcolor: "rgba(39,104,148,.8)", borderstyle: "dashed", borderwidth:"2px", font:"Georgia"}, refresh: 100, mousespeed: 1.3};
 		$tagsphere("tagsphere-holder1", jQuery.extend(ts_style, {size:240, smallestsize:40, biggestsize:45}));
 		$tagsphere("tagsphere-holder2", jQuery.extend(ts_style, {size:80, smallestsize:22, biggestsize:16}));
 		$tagsphere("tagsphere-holder3", jQuery.extend(ts_style, {size:60, smallestsize:22, biggestsize:16}));
+		var ts = $tagsphere("tagsphere-holder4", jQuery.extend(ts_style, {size:240, smallestsize:40, biggestsize:45}));
+
+
+		var myApp = angular.module('TSPreview', []);
+		myApp.controller('PreviewController', ['$scope', '$sce', 
+			function($scope, $sce){
+				$scope.border = true;
+				$scope.bordercolor = '#276894';
+				$scope.backgroundcolor = '#4ca3d9';
+				$scope.tagfont = 'Georgia';
+				$scope.tagborderstyle = 'dashed';
+				$scope.tagbackgroundcolor = '#276894';
+				$scope.tagborderwidth = 1;
+				$scope.biggestsize = 45;
+				$scope.smallestsize = 40;
+				$scope.size = 240;
+				// $scope.extjson = ;
+				$scope.mousespeed = 1;
+				$scope.color = '#000000';
+				$scope.refresh = 100;
+				$scope.$watchCollection('[border, bordercolor, backgroundcolor, tagfont, tagborderstyle, tagbackgroundcolor, tagborderwidth, biggestsize, smallestsize, size, extjson, mousespeed, color, refresh]',function(){
+			        ts_style = {'tag':{}};
+			        if ($scope.border != undefined) ts_style.border = $scope.border;
+			        if ($scope.bordercolor != undefined) ts_style.bordercolor = $scope.bordercolor;
+			        if ($scope.backgroundcolor != undefined) ts_style.backgroundcolor = $scope.backgroundcolor;
+			        if ($scope.tagfont != undefined) ts_style.tag.font = $scope.tagfont;
+			        if ($scope.tagborderstyle != undefined) ts_style.tag.borderstyle = $scope.tagborderwidth;
+			        if ($scope.tagbackgroundcolor != undefined) ts_style.tag.backgroundcolor = $scope.tagbackgroundcolor;
+			        if ($scope.tagborderwidth != undefined) ts_style.tag.borderwidth = $scope.tagborderwidth;
+			        if ($scope.biggestsize != undefined) ts_style.biggestsize = $scope.biggestsize;
+			        if ($scope.smallestsize != undefined) ts_style.smallestsize = $scope.smallestsize;
+			        if ($scope.size != undefined) ts_style.size = $scope.size;
+			        // if ($scope.extjson != undefined) ts_style.extjson = $scope.extjson;
+			        if ($scope.mousespeed != undefined) ts_style.mousespeed = $scope.mousespeed;
+			        if ($scope.color != undefined) ts_style.color = $scope.color;
+			        if ($scope.refresh != undefined) ts_style.refresh = $scope.refresh;
+			        ts.update(ts_style);
+			        $scope.setup = 'var ts = $tagsphere("tagsphere-holder1", ' + JSON.stringify(ts_style) + ');';
+			    });
+		}]);
+
 	</script>
 </body>
 </html>
