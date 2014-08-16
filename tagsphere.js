@@ -46,6 +46,7 @@
 				$this.add_tags();
 				this.remove();
 			});
+			if ($this.callback) $this.callback();
 		}
         return this;
     };
@@ -118,7 +119,7 @@
 		});
 
 		this.start();
-		if (this.callback) this.callback();
+		if (this.callback && !this.options.clicktostart) this.callback();
 		return this;	
 
     },
