@@ -36,11 +36,24 @@
 		//set up environment
 		$('#'+holder+" .tagsphere").hide();
 		$('#'+holder).css({'width': this.size+'px', 'height': this.size+'px'});
-
-		//Add tags to ts
+		if (!options.clicktostart) this.add_tags();
+		else{
+			$this = this;
+		    $('#'+this.holder).append('<div id="clicktostart" style="text-align:center;left:50%; top:50%; position:absolute; margin-left:-25px; margin-top:-25px;"><div id="circle" style="width:50px;height:50px;border-radius:50%;background-color:red;"><div id="triangle" style="width:0; height: 0; position:absolute; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 20px solid green; margin-left:20px;margin-top:10px"></div></div>');			
+			$('#'+this.holder+" #clicktostart #circle").css({'background-color': $('#'+holder).css("border-color")});
+			$('#'+this.holder+" #clicktostart #circle #triangle").css({ 'border-left-color': $('#'+holder).css("background-color")});
+			$('#'+this.holder+" #clicktostart").css({'cursor': 'pointer'}).click(function(){
+				$this.add_tags();
+				this.remove();
+			});
+		}
+        return this;
+    };
+    $tagsphere.fn = $tagsphere.prototype = {
+    add_tags: function(){
 		var $this = this;
-		if (options.extjson){
-			$.getJSON(options.extjson, function(data){
+		if (this.options.extjson){
+			$.getJSON(this.options.extjson, function(data){
 				data.forEach(function(tag){
 					var p = $this.position_to_point($this.random_position());
 					if (tag.type=="onclick")
@@ -51,17 +64,14 @@
 				});
 			}).promise().done(function(){return $this.init();});
 		} else {
-			$('#'+holder+" .tagsphere > li").each(function () {
+			$('#'+this.holder+" .tagsphere > li").each(function () {
 				var p = $this.position_to_point($this.random_position());
 				p.tag = $(this).html();
 			    $this.tags.push(p);
 			});
 			return($this.init());
 		}
-		//Repeats the rotate function, which updates
-        return this;
-    };
-    $tagsphere.fn = $tagsphere.prototype = {
+    },
     init: function(){
  		//add tags
 		//determine the largest tag width to ensure tags don't extend beyond the boundaries of the circle.
