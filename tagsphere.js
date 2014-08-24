@@ -1,5 +1,4 @@
 (function (window, options, callback) {
-	less.watch();
 	var $tagsphere = function (holder, options, callback) {
         if ( window === this ) {
             return new $tagsphere(holder, options, callback);
@@ -7,21 +6,16 @@
         //options processing
         this.options = options;
         this.callback = callback;
-        if (options.border) $('#'+holder).css("border-width", "20px"); else if (options.border == false) $('#'+this.holder).css("border-width", "");
-        if (options.bordercolor)  $('#'+holder).css("border-color", options.bordercolor);
-        if (options.borderwidth) $('#'+this.holder).css("border-width", options.borderwidth);
-        if (options.backgroundcolor)  $('#'+holder).css("background-color", options.backgroundcolor);
+        if (options.border) less.modifyVars({borderwidth:20});
+        if (options.bordercolor) less.modifyVars({bordercolor:options.bordercolor});
+        if (options.borderwidth) less.modifyVars({borderwidth:options.borderwidth});
+        if (options.backgroundcolor) less.modifyVars({bgcolor:options.backgroundcolor});
        	if (options.tag){
-       		if (options.tag.font) $('#'+holder + ' .tstag').css('font-family', options.tag.font);
-		   	$(".tstag").hover(function(){
-		       	if (options.tag.borderstyle) $(this).css("border-style", options.tag.borderstyle);
-		       	if (options.tag.backgroundcolor) $(this).css("background-color", options.tag.backgroundcolor);
-		       	if (options.tag.borderwidth) $(this).css("border-width", options.tag.borderwidth);
-		   	}, function(){
-		       	if (options.tag.borderstyle) $(this).css("border-style", "");
-		       	if (options.tag.backgroundcolor) $(this).css("background-color", "");
-		       	if (options.tag.borderwidth) $(this).css("border-width", "");	   		
-		   	});
+       		if (options.tag.font) less.modifyVars({font:options.tag.font})
+	       	if (options.tag.borderstyle) less.modifyVars({tagborderstyle:options.tag.borderstyle});
+	       	if (options.tag.backgroundcolor) less.modifyVars({tagborderstyle:options.tag.backgroundcolor});
+	       	if (options.tag.backgroundcolor) less.modifyVars({tagborderstyle:options.tag.backgroundcolor});
+	       	if (options.tag.borderwidth) less.modifyVars({tagborderstyle:options.tag.tagborderwidth});
        	}
        	if (options.biggestsize) this.BIGGEST_SIZE = options.biggestsize;
        	if (options.smallestsize) this.SMALLEST_SIZE = options.smallestsize;
